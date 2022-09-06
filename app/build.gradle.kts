@@ -27,7 +27,7 @@ android {
         minSdk = 21
         targetSdk = 32
         versionCode = 3
-        versionName = "1.2"
+        versionName = "1.3"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         addManifestPlaceholders(mapOf("ADMOB_APPLICATION_ID" to prop.getProperty("admobId")))
