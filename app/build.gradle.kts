@@ -26,8 +26,8 @@ android {
         applicationId = prop.getProperty("packageName")
         minSdk = 21
         targetSdk = 32
-        versionCode = 2
-        versionName = "1.1"
+        versionCode = 3
+        versionName = "1.2"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         addManifestPlaceholders(mapOf("ADMOB_APPLICATION_ID" to prop.getProperty("admobId")))
