@@ -1,38 +1,45 @@
-name: Android CI
+name: Build Release
 
+# 每次提交git tag的时候触发
 on:
   push:
     tags:
       - "*"
 
+env:
+  CONFIG_BRANCH: config # 正式配置所在分支
+
 jobs:
   build:
-    #runs-on: ubuntu-latest
-    runs-on: self-hosted
+    runs-on: ubuntu-latest
+    #runs-on: self-hosted
 
     steps:
     - uses: actions/checkout@v3
+    - run: git merge -s recursive -X theirs --allow-unrelated-histories -m "merge" "$CONFIG_BRANCH"
     - name: set up JDK 11
       uses: actions/setup-java@v3
       with:
         java-version: '11'
         distribution: 'temurin'
         cache: gradle
-    - name: 使用正式配置覆盖测试配置
-      run: cp -rf release_config config
     - name: Grant execute permission for gradlew
       run: chmod +x gradlew
+    - name: Build apk
+      run: ./gradlew assembleRelease
     - name: Build aab
       run: ./gradlew bundleRelease
     - uses: actions/upload-artifact@v3
       with:
         name: my-artifact
         path: |
+          app/build/outputs/apk/release/app-release.apk
           app/build/outputs/bundle/release/app-release.aab
     - name: Upload Release
       uses: softprops/action-gh-release@v1
       if: startsWith(github.ref, 'refs/tags/')
       with:
         files: |
+          app/build/outputs/apk/release/app-release.apk
           app/build/outputs/bundle/release/app-release.aab
 
