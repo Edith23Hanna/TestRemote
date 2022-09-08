@@ -19,7 +19,7 @@ jobs:
     - uses: actions/checkout@v3
       with:
         fetch-depth: 0
-    - run: git checkout -b config "origin/$CONFIG_BRANCH"
+    - run: git checkout -b $CONFIG_BRANCH "origin/$CONFIG_BRANCH"
     - run: git checkout $MASTER_BRANCH
     - run: git merge -s recursive -X theirs --allow-unrelated-histories -m "merge" "$CONFIG_BRANCH"
     - name: set up JDK 11
